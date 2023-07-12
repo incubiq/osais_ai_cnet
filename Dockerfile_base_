@@ -1,0 +1,59 @@
+##
+##      To build the AI_CONTROL_ docker image
+##
+
+# base stuff
+FROM yeepeekoo/public:ai_base_osais
+
+## install requirements
+
+RUN pip3 install \
+    torchvision \
+    numpy
+
+
+RUN pip3 install \
+    gradio \
+    albumentations \
+    opencv-contrib-python \
+    imageio \
+    imageio-ffmpeg \
+    pytorch-lightning \
+    omegaconf \
+    test-tube \
+    streamlit \
+    einops \
+    transformers \
+    webdataset \
+    kornia \
+    open_clip_torch \ 
+    invisible-watermark \
+    streamlit-drawable-canvas \
+    torchmetrics \
+    timm \
+    addict \
+    yapf \
+    prettytable \
+    safetensors \
+    basicsr \
+    fvcore \
+    pycocotools \
+    wandb
+
+RUN pip3 install torch
+RUN pip install lightning-utilities
+RUN pip3 install lightning
+RUN pip3 install Pillow
+
+# copy pth models
+# RUN mkdir -p /root/.cache/torch/hub/checkpoints
+# COPY ./_temp/checkpoints /root/.cache/torch/hub/checkpoints
+
+# RUN mkdir -p /root/.cache/clip
+# COPY ./_temp/clip /root/.cache/clip
+
+## debug
+RUN pip install debugpy
+
+# run as a server
+CMD ["uvicorn", "main_fastapi:app", "--host", "0.0.0.0", "--port", "5000"]

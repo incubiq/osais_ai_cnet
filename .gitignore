@@ -1,0 +1,15 @@
+.vscode/
+*__pycache__*
+_input/*
+_output/*
+_temp/*
+
+ai/models
+ai/github_docs
+ai/test_imgs
+ai/font
+
+build.bat
+env_vai
+env_docker_local_vai
+env_docker_local

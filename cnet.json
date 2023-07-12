@@ -1,0 +1,151 @@
+{
+    "engine": "cnet",
+    "name": "Control Net",
+    "location": "http://0.0.0.0",
+    "port": 5108,
+    "version": "1.0.2",
+    "description": "Text to Image",
+    "github": "https://github.com/lllyasviel/ControlNet",
+    "requiresGPU": true,
+    "isFree": false,
+    "default_cost": 1000,
+    "params": [{
+        "in": "word",
+        "out": "--prompt",
+        "isMandatory": true,
+        "type": "string",
+        "default": null,
+        "ui": {
+            "title": "Input (text and/or image)",
+            "placeholder": "eg: gold coin from rome 100 BC, full size",
+            "widget": "uiEdit",
+            "column": 1
+        }
+    }, {
+        "in": "url_upload",
+        "out": "-filename",
+        "isMandatory": false,
+        "type": "string",
+        "default": null,
+        "ui": {
+            "widget": "uiSelectPicture",
+            "column": 1
+        }
+    }, {
+        "in": "steps",
+        "out": "--ddim_steps",
+        "isMandatory": true,
+        "type": "int",
+        "default": 20,
+        "freeAccess":  {"$max": 100},
+        "ui": {
+            "title": "Step Count",
+            "tooltip": "",
+            "min": 1,            
+            "max": 100,            
+            "unit": "",
+            "widget": "uiRangeSlider",
+            "column": 1
+        }
+    }, {
+        "in": "guidance",
+        "out": "--scale",
+        "isMandatory": true,
+        "type": "float",
+        "default": 9,
+        "ui": {
+            "title": "Guidance scale",
+            "tooltip": "",
+            "displayAsPercent": true,            
+            "unit": "",            
+            "min": 0.1,            
+            "max": 30,
+            "widget": "uiRangeSlider",
+            "column": 1,
+            "conditional": {"$null": "url_upload"}
+        }
+    }, {
+        "in": "strength",
+        "out": "--strength",
+        "isMandatory": true,
+        "type": "float",
+        "default": 1,
+        "ui": {
+            "title": "Strength",
+            "tooltip": "",
+            "displayAsPercent": true,            
+            "unit": "",            
+            "min": 0,            
+            "max": 2,
+            "widget": "uiRangeSlider",
+            "column": 1,
+            "conditional": {"$exist": "url_upload"}
+        }
+    }, {
+        "in": "res",
+        "out": "--res",
+        "isMandatory": true,
+        "type": "int",
+        "default": 512,
+        "accept": {
+            "$in":[320, 384, 448, 512, 640, 768],
+            "display":["320x320", "384x384", "448x448", "512x512", "640x640", "768x768"]
+        },
+        "freeAccess": {"$max": 512},
+        "ui": {
+            "title": "Output resolution",
+            "unit": "px",
+            "widget": "uiMultiToggle",
+            "column": 2
+        }
+    }, {
+        "in": "cimg",
+        "out": "--n_samples",
+        "isMandatory": true,
+        "type": "int",
+        "default": 1,
+        "accept": {
+            "$in":[1, 2, 3, 4],
+            "display":["1", "2", "3", "4"]
+        },
+        "ui": {
+            "title": "Number of images to generate",
+            "widget": "uiMultiToggle",
+            "column": 2
+        }
+    }, {
+        "in": "saveinterval",
+        "out": "--se",
+        "isMandatory": false,
+        "type": "int",
+        "default": 0,
+        "freeAccess":  {"$max": 20},
+        "ui": {
+            "title": "Save every",
+            "tooltip": "",
+            "min": 0,            
+            "max": 20, 
+            "unit": "",
+            "widget": "uiRangeSlider",
+            "column": 2
+        }
+    }, {
+        "in": "seed",
+        "out": "--seed",
+        "isMandatory": true,
+        "type": "function",
+        "default": "$random"
+    }, {
+        "in": "model",
+        "out": "--ckpt",
+        "isMandatory": true,
+        "type": "string",
+        "default": "v1-5-pruned.ckpt"
+    }, {
+        "in": "output",
+        "out": "--output",
+        "isMandatory": true,
+        "type": "function",
+        "default": "$output_uid.ext"
+    }]
+}
