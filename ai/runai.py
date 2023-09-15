@@ -41,6 +41,38 @@ try:
 except Exception as err:
     raise err
 
+
+## where to save the user profile?
+def fnGetUserdataPath(_username):
+    _path=os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    DEFAULT_PROFILE_DIR = os.path.join(_path, '_profile')
+    USER_PROFILE_DIR = os.path.join(DEFAULT_PROFILE_DIR, _username)
+    return {
+        "location": USER_PROFILE_DIR,
+        "voice": False,
+        "picture": True
+    }
+
+## WARMUP Data
+def getWarmupData(_id):
+    try:
+        import time
+        from werkzeug.datastructures import MultiDict
+        ts=int(time.time())
+        sample_args = MultiDict([
+            ('-u', 'test_user'),
+            ('-uid', str(ts)),
+            ('-t', _id),
+            ('-cycle', '0'),
+            ('-p', 'women from forest deep look photo realistic'),
+            ('-o', 'warmup.jpg'),
+            ('-filename', 'warmup.jpg')
+        ])
+        return sample_args
+    except:
+        print("Could not call warm up!\r\n")
+        return None
+
 def process(det, input_image, prompt, a_prompt, n_prompt, num_samples, image_resolution, detect_resolution, ddim_steps, guess_mode, strength, scale, seed, eta, low_threshold, high_threshold, input_file, output_file, indir, outdir):
     global preprocessor
     global ddim_sampler
@@ -119,7 +151,7 @@ def fnRun(_args):
     vq_parser.add_argument("-idir", "--indir", type=str, help="input directory", default="./_input/", dest='indir')
 
     # Add the arguments
-    vq_parser.add_argument("-filename","--filename", type=str, help="Input image", default=None, dest='input_file')
+    vq_parser.add_argument("-filename","--filename", type=str, help="Input image", default="transparent.png", dest='input_file')
     vq_parser.add_argument("-p",    "--prompt", type=str, help="Text prompts", default=None, dest='prompt')
     vq_parser.add_argument("-seed",  "--seed", type=int, help="Seed", default=12345, dest='seed')
     vq_parser.add_argument("-preproc",  "--preprocessor", type=str, help="", default="Canny", dest='det')
@@ -127,7 +159,6 @@ def fnRun(_args):
     vq_parser.add_argument("-low",  "--low", type=int, help="Canny low threshold", default=100, dest='low_threshold')
     vq_parser.add_argument("-high",  "--high", type=int, help="Canny high threshold", default=200, dest='high_threshold')
     vq_parser.add_argument("-nsamples",  "--n_samples", type=int, help="Images", default=1, dest='num_samples')
-    vq_parser.add_argument("-se",  "--se", type=int, help="Save Intervals", default=0, dest='save_interval')
     vq_parser.add_argument("-res",  "--res", type=int, help="Image Resolution", default=512, dest='image_resolution')
     vq_parser.add_argument("-detres",  "--detres", type=int, help="Preprocessor Resolution", default=512, dest='detect_resolution')
     vq_parser.add_argument("-strength",  "--strength", type=float, help="Control Strength", default=1.0, dest='strength')
@@ -137,6 +168,8 @@ def fnRun(_args):
     vq_parser.add_argument("-ap",    "--a_prompts", type=str, help="Added Prompt", default='best quality', dest='a_prompt')
     vq_parser.add_argument("-np",    "--n_prompts", type=str, help="Negative Prompt", default='lowres, bad anatomy, bad hands, cropped, worst quality', dest='n_prompt')
     vq_parser.add_argument("-gm",    "--guessmode", type=bool, help="Images", default=False, dest='guess_mode')
+#    vq_parser.add_argument("-se",  "--se", type=int, help="Save Intervals", default=0, dest='save_interval')
+
 
     vq_parser.add_argument("-model",  "--ckpt", type=str, help="model", default="", dest='model')
     vq_parser.add_argument("-o", "--output", type=str, nargs="?", help="filename to write results to", default="result.jpg", dest="output_file")
@@ -149,10 +182,13 @@ def fnRun(_args):
 
         beg_date = datetime.utcnow()
 
-        _input = os.path.join(args.indir, args.input_file)
         _output = os.path.join(args.outdir, args.output_file)
-        pil_image = Image.open(_input).convert("RGB")
-        numpy_image = np.array(pil_image)
+        _input=None
+        numpy_image=None
+        if(args.input_file):
+            _input = os.path.join(args.indir, args.input_file)
+            pil_image = Image.open(_input).convert("RGB")
+            numpy_image = np.array(pil_image)
         aRes=process(args.det, numpy_image, args.prompt, args.a_prompt, args.n_prompt, args.num_samples, args.image_resolution, args.detect_resolution, args.ddim_steps, args.guess_mode, args.strength, args.scale, args.seed, args.eta, args.low_threshold, args.high_threshold, args.input_file, args.output_file, args.indir, args.outdir)
 
         ## return output
@@ -160,6 +196,7 @@ def fnRun(_args):
         return {
             "beg_date": beg_date,
             "end_date": end_date,
+            "mCost": 1.1,            ## cost multiplier of this AI
             "aFile": aRes
         }
 

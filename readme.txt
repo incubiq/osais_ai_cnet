@@ -13,6 +13,7 @@ python -m flask run --host=0.0.0.0 --port=5108
 uvicorn main:app --host 0.0.0.0 --port 5108
 
 // how to build it 
+// we prefer to use ./build.bat
 docker build -t yeepeekoo/public:ai_cnet_ .  
 docker build -t yeepeekoo/public:ai_cnet .  
 docker push yeepeekoo/public:ai_cnet

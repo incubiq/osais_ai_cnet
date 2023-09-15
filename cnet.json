@@ -3,18 +3,20 @@
     "name": "Control Net",
     "location": "http://0.0.0.0",
     "port": 5108,
-    "version": "1.0.2",
+    "version": "1.0.6",
     "description": "Text to Image",
     "github": "https://github.com/lllyasviel/ControlNet",
     "requiresGPU": true,
     "isFree": false,
-    "default_cost": 1000,
+    "default_cost": 6000,
     "params": [{
         "in": "word",
         "out": "--prompt",
         "isMandatory": true,
         "type": "string",
-        "default": null,
+        "value": {
+            "default": null
+        },
         "ui": {
             "title": "Input (text and/or image)",
             "placeholder": "eg: gold coin from rome 100 BC, full size",
@@ -26,9 +28,17 @@
         "out": "-filename",
         "isMandatory": false,
         "type": "string",
-        "default": null,
+        "value": {
+            "default": null
+        },
         "ui": {
             "widget": "uiSelectPicture",
+            "filterExt": [".png", ".jpg", ".jpeg"],
+            "maxWidth": 1024,
+            "maxHeight": 1024,
+            "minWidth": 256,
+            "minHeight": 256,
+            "maxKb": 1024,
             "column": 1
         }
     }, {
@@ -36,13 +46,19 @@
         "out": "--ddim_steps",
         "isMandatory": true,
         "type": "int",
-        "default": 20,
-        "freeAccess":  {"$max": 100},
+        "freeAccess":  {
+            "default": 10,
+            "min": 10,
+            "max": 15
+        },
+        "value": {
+            "default": 20,
+            "min": 1,            
+            "max": 100
+        },
         "ui": {
             "title": "Step Count",
             "tooltip": "",
-            "min": 1,            
-            "max": 100,            
             "unit": "",
             "widget": "uiRangeSlider",
             "column": 1
@@ -52,14 +68,16 @@
         "out": "--scale",
         "isMandatory": true,
         "type": "float",
-        "default": 9,
+        "value": {
+            "default": 9,
+            "min": 0.1,            
+            "max": 30
+        },
         "ui": {
             "title": "Guidance scale",
             "tooltip": "",
             "displayAsPercent": true,            
             "unit": "",            
-            "min": 0.1,            
-            "max": 30,
             "widget": "uiRangeSlider",
             "column": 1,
             "conditional": {"$null": "url_upload"}
@@ -69,14 +87,16 @@
         "out": "--strength",
         "isMandatory": true,
         "type": "float",
-        "default": 1,
+        "value": {
+            "default": 1,
+            "min": 0,            
+            "max": 2
+        },
         "ui": {
             "title": "Strength",
             "tooltip": "",
             "displayAsPercent": true,            
             "unit": "",            
-            "min": 0,            
-            "max": 2,
             "widget": "uiRangeSlider",
             "column": 1,
             "conditional": {"$exist": "url_upload"}
@@ -86,12 +106,16 @@
         "out": "--res",
         "isMandatory": true,
         "type": "int",
-        "default": 512,
-        "accept": {
-            "$in":[320, 384, 448, 512, 640, 768],
+        "value": {
+            "default": 512,
+            "set": [320, 384, 448, 512, 640, 768],            
             "display":["320x320", "384x384", "448x448", "512x512", "640x640", "768x768"]
         },
-        "freeAccess": {"$max": 512},
+        "freeAccess": {
+            "default": 512,
+            "set": [320, 384, 448, 512],
+            "display":["320x320", "384x384", "448x448", "512x512"]
+        },
         "ui": {
             "title": "Output resolution",
             "unit": "px",
@@ -103,14 +127,19 @@
         "out": "--n_samples",
         "isMandatory": true,
         "type": "int",
-        "default": 1,
-        "accept": {
-            "$in":[1, 2, 3, 4],
-            "display":["1", "2", "3", "4"]
+        "value": {
+            "default": 1,
+            "min": 1,            
+            "max": 4
+        },
+        "freeAccess": {
+            "default": 1,
+            "min": 1,
+            "max": 1
         },
         "ui": {
             "title": "Number of images to generate",
-            "widget": "uiMultiToggle",
+            "widget": "uiRangeSlider",
             "column": 2
         }
     }, {
@@ -118,13 +147,19 @@
         "out": "--se",
         "isMandatory": false,
         "type": "int",
-        "default": 0,
-        "freeAccess":  {"$max": 20},
+        "value": {
+            "default": 0,
+            "min": 0,            
+            "max": 20
+        },
+        "freeAccess": {
+            "default": 0,
+            "min": 0,
+            "max": 0
+        },
         "ui": {
             "title": "Save every",
             "tooltip": "",
-            "min": 0,            
-            "max": 20, 
             "unit": "",
             "widget": "uiRangeSlider",
             "column": 2
@@ -134,18 +169,24 @@
         "out": "--seed",
         "isMandatory": true,
         "type": "function",
-        "default": "$random"
+        "value": {
+            "default": "$random"
+        }
     }, {
         "in": "model",
         "out": "--ckpt",
         "isMandatory": true,
         "type": "string",
-        "default": "v1-5-pruned.ckpt"
+        "value": {
+            "default": "v1-5-pruned.ckpt"
+        }
     }, {
         "in": "output",
         "out": "--output",
         "isMandatory": true,
         "type": "function",
-        "default": "$output_uid.ext"
+        "value": {
+            "default": "$output_uid.ext"
+        }
     }]
 }

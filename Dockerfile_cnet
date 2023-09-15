@@ -20,15 +20,20 @@ COPY ./ai/config.py ./ai/config.py
 COPY ./ai/runai.py ./ai/runai.py
 
 # push again the base files
+COPY ./_temp/static/* ./static
+COPY ./_temp/templates/* ./templates
+COPY ./_temp/osais.json .
 COPY ./_temp/main_fastapi.py .
 COPY ./_temp/main_flask.py .
 COPY ./_temp/main_common.py .
 COPY ./_temp/osais_debug.py .
-COPY ./_temp/osais.json .
+
+# keep the transparent image (case of using cnet with prompt only)
+COPY ./_input/warmup.jpg ./_input/warmup.jpg
+COPY ./_input/transparent.png ./_input/transparent.png
 
 # copy OSAIS mapping into AI
 COPY ./cnet.json .
-COPY ./_cnet.py .
 
 # overload config with those default settings
 ENV ENGINE=cnet
