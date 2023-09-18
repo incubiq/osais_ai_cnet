@@ -3,6 +3,7 @@
 _input/*
 _output/*
 _temp/*
+_profile/*
 
 ai/models
 ai/github_docs

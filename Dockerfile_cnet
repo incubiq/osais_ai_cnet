@@ -26,11 +26,19 @@ COPY ./_temp/osais.json .
 COPY ./_temp/main_fastapi.py .
 COPY ./_temp/main_flask.py .
 COPY ./_temp/main_common.py .
-COPY ./_temp/osais_debug.py .
+
+COPY ./_temp/osais_auth.py .
+COPY ./_temp/osais_config.py .
+COPY ./_temp/osais_inference.py .
+COPY ./_temp/osais_main.py .
+COPY ./_temp/osais_pricing.py .
+COPY ./_temp/osais_s3.py .
+COPY ./_temp/osais_training.py .
+COPY ./_temp/osais_utils.py .
 
 # keep the transparent image (case of using cnet with prompt only)
 COPY ./_input/warmup.jpg ./_input/warmup.jpg
-COPY ./_input/transparent.png ./_input/transparent.png
+COPY ./_input/transparent.png ./_input/keep_transparent.png
 
 # copy OSAIS mapping into AI
 COPY ./cnet.json .

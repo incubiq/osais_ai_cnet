@@ -151,7 +151,7 @@ def fnRun(_args):
     vq_parser.add_argument("-idir", "--indir", type=str, help="input directory", default="./_input/", dest='indir')
 
     # Add the arguments
-    vq_parser.add_argument("-filename","--filename", type=str, help="Input image", default="transparent.png", dest='input_file')
+    vq_parser.add_argument("-filename","--filename", type=str, help="Input image", default="keep_transparent.png", dest='input_file')
     vq_parser.add_argument("-p",    "--prompt", type=str, help="Text prompts", default=None, dest='prompt')
     vq_parser.add_argument("-seed",  "--seed", type=int, help="Seed", default=12345, dest='seed')
     vq_parser.add_argument("-preproc",  "--preprocessor", type=str, help="", default="Canny", dest='det')
