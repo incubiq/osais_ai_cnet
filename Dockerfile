@@ -38,7 +38,7 @@ COPY ./_temp/osais_utils.py .
 
 # keep the transparent image (case of using cnet with prompt only)
 COPY ./_input/warmup.jpg ./_input/warmup.jpg
-COPY ./_input/transparent.png ./_input/keep_transparent.png
+COPY ./_input/keep_transparent.png ./_input/keep_transparent.png
 
 # copy OSAIS mapping into AI
 COPY ./cnet.json .

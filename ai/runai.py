@@ -3,12 +3,44 @@
 ##      CNET AI
 ##
 
-import os
-import sys
-import argparse
+## ------------------------------------------------------------------------
+#       Generic (All AIs)
+## ------------------------------------------------------------------------
+
+import os, sys, argparse, shutil, time
 from datetime import datetime
 
-## init
+## for calling back OSAIS from AI
+gNotifyCallback=None
+gNotifyParams=None
+
+## Notifications from AI
+def setNotifyCallback(cb, _aParams): 
+    global gNotifyParams
+    global gNotifyCallback
+
+    gNotifyParams=_aParams
+    gNotifyCallback=cb
+
+## For a debug breakpoint
+def fnDebug(): 
+    return True
+
+## where to save the user profile?
+def fnGetUserdataPath(_username):
+    _path=os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    DEFAULT_PROFILE_DIR = os.path.join(_path, '_profile')
+    USER_PROFILE_DIR = os.path.join(DEFAULT_PROFILE_DIR, _username)
+    return {
+        "location": USER_PROFILE_DIR,
+        "voice": False,
+        "picture": True
+    }
+
+## ------------------------------------------------------------------------
+#       Specific
+## ------------------------------------------------------------------------
+
 sys.path.insert(0, './ai')
 
 from share import *
@@ -40,18 +72,6 @@ try:
     ddim_sampler = DDIMSampler(model)
 except Exception as err:
     raise err
-
-
-## where to save the user profile?
-def fnGetUserdataPath(_username):
-    _path=os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    DEFAULT_PROFILE_DIR = os.path.join(_path, '_profile')
-    USER_PROFILE_DIR = os.path.join(DEFAULT_PROFILE_DIR, _username)
-    return {
-        "location": USER_PROFILE_DIR,
-        "voice": False,
-        "picture": True
-    }
 
 ## WARMUP Data
 def getWarmupData(_id):
@@ -141,7 +161,7 @@ def process(det, input_image, prompt, a_prompt, n_prompt, num_samples, image_res
 
     return aOutput
 
-
+## RUN AI
 def fnRun(_args): 
     # Create the parser
     vq_parser = argparse.ArgumentParser(description='Control Net')

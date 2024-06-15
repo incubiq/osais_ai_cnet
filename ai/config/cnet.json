@@ -3,7 +3,7 @@
     "name": "Control Net",
     "location": "http://0.0.0.0",
     "port": 5108,
-    "version": "1.0.6",
+    "version": "1.0.8",
     "description": "Text to Image",
     "github": "https://github.com/lllyasviel/ControlNet",
     "requiresGPU": true,
@@ -39,6 +39,20 @@
             "minWidth": 256,
             "minHeight": 256,
             "maxKb": 1024,
+            "column": 1
+        }
+    }, {
+        "in": "neg_word",
+        "out": "--n_prompts",
+        "isMandatory": true,
+        "type": "string",
+        "value": {
+            "default": null
+        },
+        "ui": {
+            "title": "Negative prompt ",
+            "placeholder": "eg: bad hands, comics face",
+            "widget": "uiEdit",
             "column": 1
         }
     }, {
@@ -79,8 +93,7 @@
             "displayAsPercent": true,            
             "unit": "",            
             "widget": "uiRangeSlider",
-            "column": 1,
-            "conditional": {"$null": "url_upload"}
+            "column": 1
         }
     }, {
         "in": "strength",
@@ -98,8 +111,7 @@
             "displayAsPercent": true,            
             "unit": "",            
             "widget": "uiRangeSlider",
-            "column": 1,
-            "conditional": {"$exist": "url_upload"}
+            "column": 1
         }
     }, {
         "in": "res",
