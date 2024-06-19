@@ -2,8 +2,10 @@
 *__pycache__*
 _input/*
 _output/*
-_temp/*
+_osais/
 _profile/*
+_templates/
+_static
 
 ai/models
 ai/github_docs

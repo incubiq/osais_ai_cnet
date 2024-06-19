@@ -8,42 +8,42 @@ FROM yeepeekoo/public:ai_base_osais
 ## install requirements
 
 RUN pip3 install \
-    torchvision \
-    numpy
+    torchvision==0.18.1 \
+    numpy==1.24.4
 
 
 RUN pip3 install \
-    gradio \
-    albumentations \
-    opencv-contrib-python \
-    imageio \
-    imageio-ffmpeg \
-    pytorch-lightning \
-    omegaconf \
-    test-tube \
-    streamlit \
-    einops \
-    transformers \
-    webdataset \
-    kornia \
-    open_clip_torch \ 
-    invisible-watermark \
-    streamlit-drawable-canvas \
-    torchmetrics \
-    timm \
-    addict \
-    yapf \
-    prettytable \
-    safetensors \
-    basicsr \
-    fvcore \
-    pycocotools \
-    wandb
+    gradio==4.36.1\
+    albumentations==1.4.8 \
+    opencv-contrib-python==4.10.0.82 \
+    imageio==2.34.1 \
+    imageio-ffmpeg==0.5.1 \
+    pytorch-lightning==2.3.0 \
+    omegaconf==2.3.0 \
+    test-tube==0.7.5 \
+    streamlit==1.35.0 \
+    einops==0.8.0 \
+    transformers==4.41.2 \
+    webdataset==0.2.86 \
+    kornia==0.7.2 \
+    open_clip_torch==2.24.0 \ 
+    invisible-watermark==0.2.0 \
+    streamlit-drawable-canvas==0.9.3 \
+    torchmetrics==1.4.0.post0 \
+    timm==1.0.3 \
+    addict==2.4.0 \
+    yapf==0.40.2 \
+    prettytable==3.10.0 \
+    safetensors==0.4.3 \
+    basicsr==1.4.2 \
+    fvcore==0.1.5.post20221221 \
+    pycocotools==2.0.7 \
+    wandb==0.17.1
 
-RUN pip3 install torch
-RUN pip install lightning-utilities
-RUN pip3 install lightning
-RUN pip3 install Pillow
+RUN pip3 install torch==2.3.1
+RUN pip install lightning-utilities==0.11.2
+RUN pip3 install lightning==2.3.0
+RUN pip3 install Pillow==10.3.0
 
 # copy pth models
 # RUN mkdir -p /root/.cache/torch/hub/checkpoints
@@ -53,7 +53,7 @@ RUN pip3 install Pillow
 # COPY ./_temp/clip /root/.cache/clip
 
 ## debug
-RUN pip install debugpy
+RUN pip install debugpy==1.8.1
 
 # run as a server
 CMD ["uvicorn", "main_fastapi:app", "--host", "0.0.0.0", "--port", "5000"]

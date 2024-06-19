@@ -3,7 +3,7 @@ source: https://github.com/lllyasviel/ControlNet
         https://github.com/lllyasviel/ControlNet-v1-1-nightly
 
 // runs locally with control
-conda activate control
+conda activate ai_cnet
 
 // how to run it locally -> WITH FLASK (compat old libs)
 $env:FLASK_APP="../osais_ai_base/main_flask"
@@ -19,7 +19,7 @@ docker build -t yeepeekoo/public:ai_cnet .
 docker push yeepeekoo/public:ai_cnet
 
 // how to run it alongside a GATEWAY
-docker run -d --name ai_cnet --gpus all --publish 5108:5108 --env-file env_docker_local yeepeekoo/public:ai_cnet
+docker run -d --name ai_cnet --gpus all --publish 5108:5108 --env-file env_local yeepeekoo/public:ai_cnet
 
 // how to run as VAI locally
 1/ copy content of env_vai into env_local

@@ -8,8 +8,8 @@ FROM yeepeekoo/public:ai_cnet_
 ###### update latest OSAIS config (not an absolute requirement) ######
 
 # push again the base files
-COPY ./_static/* ./_static
-COPY ./_templates/* ./_templates
+COPY ./_static/* ./_static/
+COPY ./_templates/* ./_templates/
 COPY ./_osais/* .
 
 # copy warmup files
